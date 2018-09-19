@@ -1,0 +1,183 @@
+set nocompatible
+set hlsearch
+set backspace=indent,eol,start
+set encoding=utf-8
+"set mouse=a
+set splitright
+set splitbelow
+"set list
+"set listchars=tab:→\ ,eol:↲,nbsp:␣,trail:•,extends:⟩,precedes:⟨
+set title
+set ignorecase
+set smartcase
+set incsearch
+set number
+"set relativenumber
+set mouse=a
+set ttymouse=xterm2
+set background=dark
+set clipboard=unnamed
+set colorcolumn=0
+let mapleader = ","
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*pyc,*/__pycache__/*
+set nobackup
+set noswapfile
+set hidden
+set termguicolors
+set ttimeoutlen=2
+set t_ut=
+
+" Python formatting
+au BufNewFile,BufRead *.py
+    \ set tabstop=4 |
+	\ set softtabstop=4 |
+    \ set shiftwidth=4 |
+    \ set textwidth=119 |
+    \ set expandtab |
+    \ set autoindent |
+    \ set fileformat=unix
+au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+autocmd BufRead *.py setlocal colorcolumn=0
+
+highlight BadWhitespace ctermbg=blue guibg=blue
+
+" install vim-plug if it isnt there
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter *   PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.vim/plugged')
+  Plug 'airblade/vim-gitgutter'
+  Plug 'edkolev/tmuxline.vim'
+  Plug 'timakro/vim-searchant'
+  Plug 'ervandew/supertab'
+  Plug 'chase/vim-ansible-yaml'
+    " make YCM compatible with UltiSnips (using supertab)
+    "let g:SuperTabDefaultCompletionType = '<C-n>'
+
+  Plug 'tmux-plugins/vim-tmux-focus-events'
+
+  Plug 'chrisbra/Colorizer'
+  Plug 'kien/rainbow_parentheses.vim'
+  let g:rbpt_colorpairs = [
+    \ ['brown',       'RoyalBlue3'],
+    \ ['Darkblue',    'SeaGreen3'],
+    \ ['darkgray',    'DarkOrchid3'],
+    \ ['darkgreen',   'firebrick3'],
+    \ ['darkcyan',    'RoyalBlue3'],
+    \ ['darkred',     'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['brown',       'firebrick3'],
+    \ ['gray',        'RoyalBlue3'],
+    \ ['black',       'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['Darkblue',    'firebrick3'],
+    \ ['darkgreen',   'RoyalBlue3'],
+    \ ['darkcyan',    'SeaGreen3'],
+    \ ['darkred',     'DarkOrchid3'],
+    \ ['red',         'firebrick3'],
+    \ ]
+  let g:rbpt_max = 16
+  let g:rbpt_loadcmd_toggle = 0
+  au VimEnter * RainbowParenthesesToggle
+  au Syntax * RainbowParenthesesLoadRound
+  au Syntax * RainbowParenthesesLoadSquare
+  au Syntax * RainbowParenthesesLoadBraces
+
+  Plug 'tpope/vim-eunuch'
+  Plug 'skwp/greplace.vim'
+  set grepprg=git\ grep
+  let g:grep_cmd_opts = '--line-number'
+  Plug 'tweekmonster/django-plus.vim'
+  Plug 'flazz/vim-colorschemes'
+
+  Plug 'sheerun/vim-polyglot'
+
+  Plug 'w0rp/ale'
+    let ale_python_pylint_options='--max-line-length=120 --load-plugins pylint_django'
+    let ale_python_flake8_options='--max-line-length=120 --load-plugins pylint_django'
+    let g:ale_lint_on_enter=0
+
+"  Plug 'Valloric/YouCompleteMe'
+"    map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+"    let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+"    let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+"    let g:ycm_min_num_of_chars_for_completion = 1
+"    let g:ycm_autoclose_preview_window_after_completion=1
+"    let g:ycm_autoclose_preview_window_after_insertion=1
+"    let g:ycm_python_binary_path='python'
+"    let g:ycm_auto_trigger = 0
+"    let g:ycm_min_num_of_chars_for_completion = 1
+"    let g:ycm_autoclose_preview_window_after_completion=1
+"    let g:ycm_semantic_triggers =  {
+"      \   'c' : ['->', '.'],
+"      \   'objc' : ['->', '.', 're!\[[_a-zA-Z]+\w*\s', 're!^\s*[^\W\d]\w*\s',
+"      \             're!\[.*\]\s'],
+"      \   'ocaml' : ['.', '#'],
+"      \   'cpp,objcpp' : ['->', '.', '::'],
+"      \   'perl' : ['->'],
+"      \   'php' : ['->', '::'],
+"      \   'cs,java,javascript,typescript,d,python,perl6,scala,vb,elixir,go' : ['.','from ','import '],
+"      \   'ruby' : ['.', '::'],
+"      \   'lua' : ['.', ':'],
+"      \   'erlang' : [':'],
+"      \ }
+
+  "Plug 'vim-python/python-syntax'
+  "let g:python_highlight_all = 1
+
+  Plug 'kh3phr3n/python-syntax'
+  let python_highlight_all = 1
+
+  Plug 'vim-scripts/indentpython.vim'
+  Plug 'Raimondi/delimitMate'
+  Plug 'scrooloose/nerdtree'
+    let g:NERDTreeMouseMode=3
+    let NERDTreeShowHidden=1
+    let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
+    map <silent> <C-\> :NERDTreeToggle<CR>
+  Plug 'saltstack/salt-vim'
+  Plug 'Xuyuanp/nerdtree-git-plugin'
+  Plug 'ctrlpvim/ctrlp.vim'
+    let g:ctrlp_working_path_mode = 'r'
+    let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+  Plug 'machakann/vim-sandwich'
+  Plug 'tpope/vim-fugitive'
+  Plug 'idanarye/vim-merginal'
+  Plug 'vim-airline/vim-airline'
+  Plug 'vim-airline/vim-airline-themes'
+    let g:airline_powerline_fonts = 1
+    let g:airline_theme='hybrid'
+
+"  Plug 'SirVer/ultisnips'
+"    let g:UltiSnipsExpandTrigger = "<tab>"
+"    let g:UltiSnipsJumpForwardTrigger = "<tab>"
+"    let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+" If you want :UltiSnipsEdit to split your window.
+"    let g:UltiSnipsEditSplit="vertical"
+
+  Plug 'honza/vim-snippets'
+  Plug 'ryanoasis/vim-devicons'
+    let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+    let g:DevIconsEnableFoldersOpenClose = 1
+
+  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+call plug#end()
+
+
+" General Key mappings !
+" for ctrl+s save
+"nmap <c-s> :w<CR>
+"imap <c-s> <Esc>:w<CR>
+" move among buffers with CTRL
+map <C-n> :bnext<CR>
+map <C-b> :bprev<CR>
+map zy :echo system('echo -n '.shellescape(@").' \| nc -q0 localhost 12888')<CR>
+colorscheme hybrid
+
+nnoremap <left> <nop>
+nnoremap <right> <nop>
+nnoremap <up> <nop>
+nnoremap <down> <nop>
