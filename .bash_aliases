@@ -55,3 +55,7 @@ alias gl='git log'
 alias gm='git merge'
 alias gr='git rebase'
 alias gi='git rebase -i'
+
+# terminal/sheloptions
+set -o vi
+set bell-style none
