@@ -39,11 +39,18 @@ alias px='ps aux'
 # nvim
 alias n='nvim'
 alias v='nvim'
+
+#alias related
 alias al='nvim ~/.bash_aliases && echo sourcing ~/.bash_aliases && source ~/.bash_aliases'
 
 # git stuff
 alias gs='git status'
-alias gc='git commit -m'
+
+function gc {
+	read p 'Commit Msg: ' commitmsg
+	git commit -m $commitmsg
+}
+
 alias gl='git log'
 alias gm='git merge'
 alias gr='git rebase'
