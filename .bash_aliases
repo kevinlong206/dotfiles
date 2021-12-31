@@ -30,13 +30,21 @@ alias dp='docker ps'
 alias dpa='docker ps -a'
 alias di='docker images'
 
+#standard linux stuff
 alias l='ls -trlah'
 alias h='cd ~'
 alias u='cd ..'
+alias px='ps aux'
 
 # nvim
 alias n='nvim'
 alias v='nvim'
 alias al='nvim ~/.bash_aliases && echo sourcing ~/.bash_aliases && source ~/.bash_aliases'
-alias px='ps aux'
-alias im='docker images'
+
+# git stuff
+alias gs='git status'
+alias gc='git commit -m'
+alias gl='git log'
+alias gm='git merge'
+alias gr='git rebase'
+alias gi='git rebase -i'
